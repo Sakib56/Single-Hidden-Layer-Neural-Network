@@ -12,7 +12,7 @@ for j in range(50000):
     net.train(0.01, random.choice([0,1,2,3]))
 print("training complete!\n")
 
-print("post-training tests\n")
+print("post-training tests")
 for i in range(4):
     x = np.reshape(inputMat[i], (2,1))
     y = np.reshape(targetMat[i], (1,1))
