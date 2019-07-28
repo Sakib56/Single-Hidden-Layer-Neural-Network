@@ -1,34 +1,38 @@
 import numpy as np
 
-
 class NeuralNetwork():
-
     def __init__(self, inputs, hiddens, outputs):
         layers = (inputs, hiddens, outputs)
         weightShapes = [(r, c) for r, c in zip(layers[1:], layers[:-1])]
         self.weightMatrices = [np.random.standard_normal(ws) for ws in weightShapes]
         self.biasVectors = [np.random.standard_normal((ls, 1)) for ls in layers[1:]]
 
+    # prints current weights and biases
     def info(self):
         print("weightMatrices ", self.weightMatrices)
         print("biasVectors ", self.biasVectors)
 
+    # activation function
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
 
+    # differentiated activation function 
     def diffsigmoid(self, x):
-        s = self.sigmoid(x)
-        return s * (1 - s)
+        # no need to run through sigmoid again since x has already been through activation
+        return x * (1 - x)
 
+    # feedforward algorithm
     def predict(self, x):
         for weights, biases in zip(self.weightMatrices, self.biasVectors):
             x = self.sigmoid(weights @ x + biases)
         return x
 
+    # loads .npz containing training/testing data
     def loadTrainingData(self, path):
         self.trainingData = np.load(path)
         return self.trainingData
 
+    # backpropagation algorithm 
     def train(self, learningRate, i):
         inputMat = self.trainingData['x']
         targetMat = self.trainingData['y']
@@ -63,25 +67,3 @@ class NeuralNetwork():
         self.biasVectors[0] = biasH
         self.weightMatrices[1] = weightsHO
         self.biasVectors[1] = biasO
-
-# MAIN
-net = NeuralNetwork(2, 4, 1)
-data = net.loadTrainingData('XORdata.npz')
-
-inputMat = data['x']
-targetMat = data['y']
-
-
-print("training...\n\n")
-for i in range(4):
-    for j in range(1000):
-        net.train(0.01, i)
-    x = np.reshape(inputMat[i], (2, 1))
-    y = np.reshape(targetMat[i], (1, 1))
-    print("\ninput:\n{0}\nprediction:{1}\ntarget:{2}\n".format(
-        x, net.predict(x), y))
-
-# for i in range(4):
-#     x = np.reshape(inputMat[i], (2,1))
-#     y = np.reshape(targetMat[i], (1,1))
-#     print("input:\n{0}\nprediction:{1}\ntarget:{2}\n".format(x, net.predict(x), y))
