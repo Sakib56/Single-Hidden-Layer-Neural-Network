@@ -45,7 +45,7 @@ class NeuralNetwork():
 
         outputErrors = targets - outputs
         gradients = self.diffsigmoid(outputs)
-        gradients = (gradients @ outputErrors) * learningRate
+        gradients = (gradients * outputErrors) * learningRate
         deltaWeightsHO = gradients @ np.transpose(hiddens)
 
         weightsHO += deltaWeightsHO
