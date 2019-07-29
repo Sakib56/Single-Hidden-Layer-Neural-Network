@@ -25,7 +25,6 @@ def testModel():
     print("total error: ", totalErr)
             
 
-
 ### MAIN ###
 net = nn.NeuralNetwork(2, 4, 1)
 getData()
