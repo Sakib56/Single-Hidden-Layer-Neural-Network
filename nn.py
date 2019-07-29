@@ -4,8 +4,8 @@ class NeuralNetwork():
     def __init__(self, inputs, hiddens, outputs):
         layers = (inputs, hiddens, outputs)
         weightShapes = [(r, c) for r, c in zip(layers[1:], layers[:-1])]
-        self.weightMatrices = [np.random.standard_normal(ws) for ws in weightShapes]
-        self.biasVectors = [np.random.standard_normal((ls, 1)) for ls in layers[1:]]
+        self.weightMatrices = [np.random.standard_normal(ws)/ws[1]**0.5 for ws in weightShapes]
+        self.biasVectors = [np.zeros((ls, 1)) for ls in layers[1:]]
 
     # prints current weights and biases
     def info(self):
