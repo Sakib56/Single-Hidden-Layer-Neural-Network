@@ -1,4 +1,4 @@
-# Single-Layer Neural Network
+# Single-Layer Neural Network (2019)
 
 #### This is a very basic single hidden layer neural network built completely from scratch using python and numpy. 
 
